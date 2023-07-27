@@ -14,7 +14,7 @@ namespace Cheetah.Ensembles.Data_Refinement.Components
         /// Initializes a new instance of the GH_DataDamComponent class.
         /// </summary>
         public GH_DataPasserComponent()
-          : base("Data Passer", "DH",
+          : base("Data Passer", "DP",
               "This component holds the data and passes it forward only if pass is true",
               "Custom", "Data")
         {
