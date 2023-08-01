@@ -37,24 +37,48 @@ namespace Cheetah.Ensembles.Data_Refinement.Components
             pManager.AddGenericParameter("Data", "D", "Stored data", GH_ParamAccess.item);
         }
 
+        private bool _pass = false;
+        private GH_Structure<IGH_Goo> _data = null;
+
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            bool recompute = false;
+            bool Compute = false;
 
-            DA.GetData(1, ref recompute);
+            DA.GetData(1, ref Compute);
 
-            if (!recompute)
+            bool DataIsNull = _data == null;
+            bool PassIsTurningFalse = !Compute && _pass == true;
+
+            if (PassIsTurningFalse || DataIsNull || Compute)
             {
-                DA.AbortComponentSolution();
-                return;
+                DA.GetDataTree(0, out GH_Structure<IGH_Goo> dataTree);
+
+                if (PassIsTurningFalse || DataIsNull)
+                {
+                    _data = dataTree.ShallowDuplicate();
+                }
+
+                DA.SetDataTree(0, Compute ? dataTree : _data);
+
+                foreach (IGH_Param recipient in base.Params.Output[0].Recipients)
+                {
+                    recipient.ExpireSolution(recompute: true);
+                }
+            }
+            else
+            {
+                DA.SetDataTree(0, _data);
             }
 
-            DA.GetDataTree(0, out GH_Structure<IGH_Goo> dataTree);
-            DA.SetDataTree(0, dataTree);
+            _pass = Compute;
+        }
+
+        protected override void ExpireDownStreamObjects()
+        {
         }
 
 
