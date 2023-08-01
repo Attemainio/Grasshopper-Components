@@ -58,21 +58,15 @@ namespace Cheetah.Ensembles.Data_Refinement.Components
                 DA.GetDataTree(0, out GH_Structure<IGH_Goo> dataTree);
 
                 if (PassIsTurningFalse || DataIsNull)
-                {
                     _data = dataTree.ShallowDuplicate();
-                }
 
                 DA.SetDataTree(0, Compute ? dataTree : _data);
 
                 foreach (IGH_Param recipient in base.Params.Output[0].Recipients)
-                {
                     recipient.ExpireSolution(recompute: true);
-                }
             }
             else
-            {
                 DA.SetDataTree(0, _data);
-            }
 
             _pass = Compute;
         }
