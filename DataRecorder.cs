@@ -80,12 +80,6 @@ namespace DataRefinement
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            if (!RambollConnect.Valid)
-            {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Error with connection, please try VPN!");
-                return;
-            }
-
             bool record = false;
             bool clear = false;
             int limit = 0;
