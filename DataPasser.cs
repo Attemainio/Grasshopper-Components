@@ -62,8 +62,11 @@ namespace Cheetah.Ensembles.Data_Refinement.Components
 
                 DA.SetDataTree(0, Compute ? dataTree : _data);
 
-                foreach (IGH_Param recipient in base.Params.Output[0].Recipients)
-                    recipient.ExpireSolution(recompute: true);
+                if (DataIsNull || Compute)
+                {
+                    foreach (IGH_Param recipient in base.Params.Output[0].Recipients)
+                        recipient.ExpireSolution(recompute: true);
+                }
             }
             else
                 DA.SetDataTree(0, _data);
