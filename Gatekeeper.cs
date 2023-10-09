@@ -6,17 +6,17 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
-namespace Cheetah.Ensembles.Data_Refinement.Components
+namespace Gatekeeper
 {
-    public class GH_DataHolderComponent : GH_Component
+    public class GH_GatekeeperComponent : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the GH_DataDamComponent class.
         /// </summary>
-        public GH_DataPasserComponent()
-          : base("Data Passer", "DP",
-              "This component holds the data and passes it forward only if pass is true",
-              "Custom", "Data")
+        public GH_GatekeeperComponent()
+          : base("Gatekeeper", "GK",
+              "Gatekeeper ",
+              "Params", "Util")
         {
         }
 
@@ -25,7 +25,7 @@ namespace Cheetah.Ensembles.Data_Refinement.Components
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Data", "D", "Data to store", GH_ParamAccess.tree);
+            pManager.AddGenericParameter("Data", "D", "Data", GH_ParamAccess.tree);
             pManager.AddBooleanParameter("Pass", "P", "True, if data is passed forward", GH_ParamAccess.item, false);
         }
 
@@ -34,7 +34,7 @@ namespace Cheetah.Ensembles.Data_Refinement.Components
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Data", "D", "Stored data", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Data", "D", "Data", GH_ParamAccess.item);
         }
 
         private bool _pass = false;
