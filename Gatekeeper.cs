@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
-using Rhino.Geometry;
 
 namespace Gatekeeper
 {
@@ -15,7 +12,11 @@ namespace Gatekeeper
         /// </summary>
         public GH_GatekeeperComponent()
           : base("Gatekeeper", "GK",
-              "Gatekeeper ",
+              "The Gatekeeper component is a powerful tool designed to manage the flow of data within Grasshopper for Rhino. " +
+              "It acts as a conditional gate that can prevent data from propagating further in a Grasshopper definition based on a boolean condition, " +
+              "without triggering a recomputation of the solution. " +
+              "This component is particularly useful when you need to control the data flow based on specific conditions, " +
+              "and it ensures a seamless user experience by retaining the previous data state.",
               "Params", "Util")
         {
         }
@@ -82,14 +83,14 @@ namespace Gatekeeper
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => Cheetah.Properties.Resources.GH_DataHolder.ToBitmap();
+        protected override System.Drawing.Bitmap Icon => Gatekeeper.Properties.Resources.GH_Gatekeeper.ToBitmap();
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("90EB3F13-53F0-4EF1-89C8-98E76802BD54"); }
+            get { return new Guid("F798609B-3A6A-4736-BD18-E59BF1F95D65"); }
         }
     }
 }
