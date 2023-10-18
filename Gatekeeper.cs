@@ -39,7 +39,7 @@ namespace Gatekeeper
         }
 
         private bool _pass = false;
-        private GH_Structure<IGH_Goo> _data = null;
+        private GH_Structure<IGH_Goo> _data = new GH_Structure<IGH_Goo>();
 
         /// <summary>
         /// This is the method that actually does the work.
@@ -47,32 +47,27 @@ namespace Gatekeeper
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            bool Compute = false;
+            bool compute = false;
+            DA.GetData(1, ref compute);
 
-            DA.GetData(1, ref Compute);
-
-            bool DataIsNull = _data == null;
-            bool PassIsTurningFalse = !Compute && _pass == true;
-
-            if (PassIsTurningFalse || DataIsNull || Compute)
+            if (compute)
             {
                 DA.GetDataTree(0, out GH_Structure<IGH_Goo> dataTree);
 
-                if (PassIsTurningFalse || DataIsNull)
+                if (!_pass)
                     _data = dataTree.ShallowDuplicate();
 
-                DA.SetDataTree(0, Compute ? dataTree : _data);
+                DA.SetDataTree(0, dataTree);
 
-                if (DataIsNull || Compute)
-                {
-                    foreach (IGH_Param recipient in base.Params.Output[0].Recipients)
-                        recipient.ExpireSolution(recompute: true);
-                }
+                foreach (IGH_Param recipient in Params.Output[0].Recipients)
+                    recipient.ExpireSolution(recompute: true);
             }
             else
+            {
                 DA.SetDataTree(0, _data);
+            }
 
-            _pass = Compute;
+            _pass = compute;
         }
 
         protected override void ExpireDownStreamObjects()
